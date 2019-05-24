@@ -1,0 +1,39 @@
+﻿@model RentMovie.ViewModel.MovieFormViewModel 
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Movie</h2>
+@Html.ValidationSummary(true, "Please fix the following errors", new { @style="color:red"})
+
+@using (Html.BeginForm("Save", "Movies"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m=> m.Name)
+        @Html.TextBoxFor(m=> m.Name, new {@class="form-control"})
+        @Html.ValidationMessageFor(m=> m.Name, "", new { @style = "color: red" })
+        
+    </div> 
+    <div class="form-group">
+        @Html.LabelFor(m => m.ReleaseDate)
+        @Html.TextBoxFor(m => m.ReleaseDate, "{0:MM/dd/yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ReleaseDate, "", new { @style="color:red"})
+    </div> 
+    <div class="form-group">
+        @Html.LabelFor(m => m.CopiesInStock)
+        @Html.TextBoxFor(m => m.CopiesInStock, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CopiesInStock,"", new {@style="color:red"}) 
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GenreId)
+        @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select the Genre", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.GenreId, "", new { @style = "color:red" })
+    </div>
+
+    @Html.HiddenFor(m=> m.Id)
+
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+}
